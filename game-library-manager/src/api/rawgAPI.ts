@@ -2,7 +2,6 @@ import axios from "axios";
 import type { gameType } from "../types/game.types";
 
 const API_URL_GAMES = "https://api.rawg.io/api/games";
-// const API_URL_IMAGES =
 const API_KEY = import.meta.env.VITE_API_KEY as string | undefined;
 
 const fetchGames = async () => {

@@ -1,0 +1,15 @@
+export const genreOptions = [
+  { label: "All", value: "All" },
+  { label: "Action", value: "Action" },
+  { label: "Shooter", value: "Shooter" },
+  { label: "Simulation", value: "Simulation" },
+  { label: "Educational", value: "Educational" },
+  { label: "Indie", value: "Indie" },
+  { label: "Puzzle", value: "Puzzle" },
+  { label: "RPG", value: "RPG" },
+  { label: "Strategy", value: "Strategy" },
+  { label: "Adventure", value: "Adventure" },
+  { label: "Massively Multiplayer", value: "Massively Multiplayer" },
+  { label: "Sports", value: "Sports" },
+  { label: "Racing", value: "Racing" },
+];
