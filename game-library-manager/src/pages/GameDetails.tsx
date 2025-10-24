@@ -1,5 +1,7 @@
+import NavBar from "../components/NavBar";
+
 const GameDetails = () => {
-  return <div>Game Details page</div>;
+  return <NavBar />;
 };
 
 export default GameDetails;

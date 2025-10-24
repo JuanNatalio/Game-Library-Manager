@@ -1,6 +1,7 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   allGamesAtom,
+  favoritedGamesAtom,
   filteredGamesAtom,
   searchTextAtom,
   selectFilterValueAtom,
@@ -9,7 +10,8 @@ import type { genreSelectType } from "../types/game.types";
 import { useEffect } from "react";
 
 const useGameLibrary = () => {
-  const [allGames] = useAtom(allGamesAtom);
+  const [allGames, setAllGames] = useAtom(allGamesAtom);
+  const setFavoritedGames = useSetAtom(favoritedGamesAtom);
   const setFilteredGames = useSetAtom(filteredGamesAtom);
   const setFilterValue = useSetAtom(selectFilterValueAtom);
   const setSearchText = useSetAtom(searchTextAtom);
@@ -29,7 +31,7 @@ const useGameLibrary = () => {
 
       const searchMatches =
         userSearch === "" ||
-        (game.name && game.name.toLowerCase().includes(userSearch));
+        (game.name?.toLowerCase()?.includes(userSearch) ?? false);
 
       return genreMatches && searchMatches;
     });
@@ -46,12 +48,26 @@ const useGameLibrary = () => {
     setFilterValue(genre);
   };
 
+  const handleFavoriteGame = (gameName: string) => {
+    const favoritedGame = allGames.find((game) => game.name === gameName);
+    if (!favoritedGame) return;
+    favoritedGame.favorited = !favoritedGame.favorited;
+    if (favoritedGame.favorited) {
+      setFavoritedGames((prev) => [...prev, favoritedGame]);
+    } else {
+      setFavoritedGames((prev) => {
+        return prev.filter((game) => game.name !== favoritedGame.name);
+      });
+    }
+    setAllGames([...allGames]);
+  };
+
   useEffect(() => {
     applyFilters(currentSearch, currentGenre);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSearch, currentGenre]);
 
-  return { handleSearchChange, handleFilterChange };
+  return { handleSearchChange, handleFilterChange, handleFavoriteGame };
 };
 
 export default useGameLibrary;

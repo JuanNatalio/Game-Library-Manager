@@ -1,18 +1,22 @@
-import { useAtom } from "jotai";
-import { filteredGamesAtom } from "../utils/storage";
 import GameCard from "./GameCard";
+import type { gameType } from "../types/game.types";
+import type { FC } from "react";
 
-const GameGrid = () => {
-  const [filteredGames] = useAtom(filteredGamesAtom);
+interface GameGridProps {
+  listOfGames: Array<gameType>;
+}
+
+const GameGrid: FC<GameGridProps> = ({ listOfGames }) => {
   return (
-    <div>
-      {filteredGames.map((game) => (
+    <div className="flex flex-wrap">
+      {listOfGames.map((game) => (
         <GameCard
           key={game.id}
           name={game.name}
           released={game.released}
           rating={game.rating}
           background_image={game.background_image}
+          favorited={game.favorited}
         />
       ))}
     </div>

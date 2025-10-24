@@ -6,6 +6,7 @@ export type gameType = {
   rating: number;
   background_image: string;
   genres: Array<genre>;
+  favorited: boolean;
 };
 
 export type genre = {

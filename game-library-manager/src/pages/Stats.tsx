@@ -1,5 +1,7 @@
+import NavBar from "../components/NavBar";
+
 const Stats = () => {
-  return <div>Stats page</div>;
+  return <NavBar />;
 };
 
 export default Stats;
