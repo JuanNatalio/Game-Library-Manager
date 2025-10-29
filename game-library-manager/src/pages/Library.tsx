@@ -1,14 +1,20 @@
 import { useAtom } from "jotai";
 import GameGrid from "../components/GameGrid";
-import { favoritedGamesAtom } from "../utils/storage";
+import { filteredFavoritedGamesAtom } from "../utils/storage";
 import NavBar from "../components/NavBar";
+import SearchBar from "../components/SearchBar";
+import useGameLibrary from "../hooks/useGameLibrary";
 
 const Library = () => {
-  const [favoritedGames] = useAtom(favoritedGamesAtom);
+  const { handleSearchChangeForFavoritedGames } = useGameLibrary();
+
+  const [filteredFavoritedGames] = useAtom(filteredFavoritedGamesAtom);
+
   return (
     <>
       <NavBar />
-      <GameGrid listOfGames={favoritedGames} />
+      <SearchBar handleSearchChange={handleSearchChangeForFavoritedGames} />
+      <GameGrid listOfGames={filteredFavoritedGames} />
     </>
   );
 };

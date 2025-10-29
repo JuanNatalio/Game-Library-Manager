@@ -1,7 +1,9 @@
 import type { FC } from "react";
 import useGameLibrary from "../hooks/useGameLibrary";
+import useNavBar from "../hooks/useNavBar";
 
 interface GameCardProps {
+  id: number;
   name: string;
   released: string;
   rating: number;
@@ -10,6 +12,7 @@ interface GameCardProps {
 }
 
 const GameCard: FC<GameCardProps> = ({
+  id,
   name,
   released,
   rating,
@@ -17,6 +20,7 @@ const GameCard: FC<GameCardProps> = ({
   favorited,
 }) => {
   const { handleFavoriteGame } = useGameLibrary();
+  const { navToGameDetails } = useNavBar();
 
   return (
     <div className="rounded-lg border solid border-black shadow-lg font-sans w-64 h-48flex-col">
@@ -31,6 +35,7 @@ const GameCard: FC<GameCardProps> = ({
       >
         {favorited ? "Remove from Library" : "Add to Library"}
       </button>
+      <button onClick={() => navToGameDetails(id)}>View Game Details</button>
     </div>
   );
 };

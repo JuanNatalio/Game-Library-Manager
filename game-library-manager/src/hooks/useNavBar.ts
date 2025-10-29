@@ -6,21 +6,19 @@ const useNavBar = () => {
   const navToLibrary = () => {
     navigate("/library");
   };
+
   const navToHome = () => {
     navigate("/");
   };
-  const navToGameDetails = () => {
-    navigate("/game/:id");
-  };
-  const navToStats = () => {
-    navigate("/stats");
+
+  const navToGameDetails = (id: number) => {
+    navigate(`/game/${id}`);
   };
 
   return {
     navToLibrary,
     navToHome,
     navToGameDetails,
-    navToStats,
   };
 };
 export default useNavBar;

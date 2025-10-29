@@ -2,6 +2,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   allGamesAtom,
   favoritedGamesAtom,
+  filteredFavoritedGamesAtom,
   filteredGamesAtom,
   searchTextAtom,
   selectFilterValueAtom,
@@ -11,12 +12,13 @@ import { useEffect } from "react";
 
 const useGameLibrary = () => {
   const [allGames, setAllGames] = useAtom(allGamesAtom);
-  const setFavoritedGames = useSetAtom(favoritedGamesAtom);
   const setFilteredGames = useSetAtom(filteredGamesAtom);
+  const [favoritedGames, setFavoritedGames] = useAtom(favoritedGamesAtom);
+  const setFilteredFavoritedGames = useSetAtom(filteredFavoritedGamesAtom);
   const setFilterValue = useSetAtom(selectFilterValueAtom);
   const setSearchText = useSetAtom(searchTextAtom);
-  const currentGenre = useAtomValue(selectFilterValueAtom);
-  const currentSearch = useAtomValue(searchTextAtom);
+  const selectFilterValue = useAtomValue(selectFilterValueAtom);
+  const searchText = useAtomValue(searchTextAtom);
 
   const applyFilters = (search: string, genre: genreSelectType | "All") => {
     const userSearch = (search || "").trim().toLowerCase();
@@ -39,7 +41,9 @@ const useGameLibrary = () => {
     setFilteredGames(result);
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChangeForAllGames = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const typedValue = event.target.value;
     setSearchText(typedValue);
   };
@@ -62,12 +66,31 @@ const useGameLibrary = () => {
     setAllGames([...allGames]);
   };
 
-  useEffect(() => {
-    applyFilters(currentSearch, currentGenre);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentSearch, currentGenre]);
+  const handleSearchChangeForFavoritedGames = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const typedValue = event.target.value.toLowerCase();
+    const filteredFavoritedGames = favoritedGames.filter((game) =>
+      game.name.toLowerCase().includes(typedValue)
+    );
+    setFilteredFavoritedGames(filteredFavoritedGames);
+  };
 
-  return { handleSearchChange, handleFilterChange, handleFavoriteGame };
+  useEffect(() => {
+    applyFilters(searchText, selectFilterValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchText, selectFilterValue, allGames]);
+
+  useEffect(() => {
+    setFilteredFavoritedGames(favoritedGames);
+  }, [favoritedGames, setFilteredFavoritedGames]);
+
+  return {
+    handleSearchChangeForAllGames,
+    handleFilterChange,
+    handleFavoriteGame,
+    handleSearchChangeForFavoritedGames,
+  };
 };
 
 export default useGameLibrary;

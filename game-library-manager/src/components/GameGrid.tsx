@@ -11,6 +11,7 @@ const GameGrid: FC<GameGridProps> = ({ listOfGames }) => {
     <div className="flex flex-wrap">
       {listOfGames.map((game) => (
         <GameCard
+          id={game.id}
           key={game.id}
           name={game.name}
           released={game.released}

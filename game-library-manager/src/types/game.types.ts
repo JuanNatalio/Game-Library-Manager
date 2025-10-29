@@ -9,6 +9,16 @@ export type gameType = {
   favorited: boolean;
 };
 
+export type gameDetailsType = {
+  id: number;
+  slug: string;
+  name: string;
+  description: string;
+  released: string;
+  rating: number;
+  background_image: string;
+};
+
 export type genre = {
   id: number;
   name: string;

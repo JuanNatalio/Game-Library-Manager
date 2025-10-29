@@ -2,9 +2,10 @@ import axios from "axios";
 import type { gameType } from "../types/game.types";
 
 const API_URL_GAMES = "https://api.rawg.io/api/games";
+const API_URL_GAME_DETAILS = "https://api.rawg.io/api/games/";
 const API_KEY = import.meta.env.VITE_API_KEY as string | undefined;
 
-const fetchGames = async () => {
+export const fetchGames = async () => {
   let allGames: Array<gameType> = [];
   let nextPage = `${API_URL_GAMES}?key=${API_KEY}&page=1`;
 
@@ -21,4 +22,13 @@ const fetchGames = async () => {
   return allGames;
 };
 
-export default fetchGames;
+export const fetchGameDetails = async (id: string) => {
+  try {
+    const response = await axios.get(
+      `${API_URL_GAME_DETAILS}${id}?key=${API_KEY}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Could not fetch game details:", error);
+  }
+};
